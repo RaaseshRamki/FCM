@@ -1,0 +1,3 @@
+include ':FCMLibrary'
+include ':app'
+rootProject.name = "FCMExample"
