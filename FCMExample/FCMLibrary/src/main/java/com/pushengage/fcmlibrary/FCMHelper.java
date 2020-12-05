@@ -46,27 +46,22 @@ public class FCMHelper {
     }
 
 
-    private FCMHelper(Context context, String message) {
+    private FCMHelper(Context context) {
         // Initialize your Library here
         this.context = context;
     }
 
-    class Builder {
+    public static class Builder {
         private Context context;
-        private String message;
 
         public Builder addContext(Context context) {
             this.context = context;
             return this;
         }
 
-        public Builder addMessage(String message) {
-            this.message = message;
-            return this;
+        public FCMHelper build() {
+            return new FCMHelper(context);
         }
 
-        public FCMHelper build() {
-            return new FCMHelper(context, message);
-        }
     }
 }
