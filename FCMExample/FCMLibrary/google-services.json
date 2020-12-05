@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "16576726721",
+    "project_id": "push-engage-notification",
+    "storage_bucket": "push-engage-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16576726721:android:735bb4c27e954114003640",
+        "android_client_info": {
+          "package_name": "com.pushengage.notificationtesting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16576726721-8vol8b7ah1f3bjou7slfdd5abdhj9qro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBykR8FjgD0ufwzBtakjoyCIQHx8F96T0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16576726721-8vol8b7ah1f3bjou7slfdd5abdhj9qro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
