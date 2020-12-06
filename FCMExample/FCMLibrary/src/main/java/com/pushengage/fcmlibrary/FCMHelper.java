@@ -29,10 +29,11 @@ public class FCMHelper {
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         //Subscribes to topic in the background.
         //The subscribe operation is persisted and will be retried until successful.
-        FirebaseMessaging.getInstance().subscribeToTopic("PE")
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG, String.valueOf(task.isSuccessful()));
                         fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), "");
                     }
                 });
@@ -45,7 +46,8 @@ public class FCMHelper {
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
-                        fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), "");
+                        Log.d(TAG, String.valueOf(task.isSuccessful()));
+                        fcmInterface.callback(SUBSCRIPTION_STATUS, task.isSuccessful(), "");
                     }
                 });
 
@@ -59,13 +61,13 @@ public class FCMHelper {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), "");
+                            fcmInterface.callback(TOKEN, task.isSuccessful(), "");
                             return;
                         } else {
                             // Get new FCM registration token
                             String token = task.getResult();
                             Log.d(TAG, token);
-                            fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), token);
+                            fcmInterface.callback(TOKEN, task.isSuccessful(), token);
                         }
                     }
                 });
