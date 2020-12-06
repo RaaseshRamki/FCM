@@ -33,13 +33,7 @@ public class FCMHelper {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Boolean msg = true;
-                        if (!task.isSuccessful()) {
-                            msg = false;
-                            fcmInterface.callback(SUBSCRIBE, false, "");
-                        }
-                        Log.d(TAG, String.valueOf(msg));
-                        fcmInterface.callback(SUBSCRIBE, true, "");
+                        fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), "");
                     }
                 });
     }
@@ -51,8 +45,7 @@ public class FCMHelper {
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
-                        Boolean subscriptionStatus = task.isSuccessful();
-                        fcmInterface.callback(SUBSCRIBE, subscriptionStatus, "");
+                        fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), "");
                     }
                 });
 
@@ -81,6 +74,7 @@ public class FCMHelper {
     private FCMHelper(Context context, FcmInterface fcmInterface) {
         // Library Initialized here
         this.context = context;
+        this.fcmInterface = fcmInterface;
         FirebaseApp.initializeApp(context);
     }
 
