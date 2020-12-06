@@ -2,7 +2,6 @@ package com.pushengage.fcmlibrary;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -15,10 +14,12 @@ public class FCMHelper {
 
     private static Context context;
     private static String TAG = "FCMHelper";
+    static FcmInterface fcmInterface;
+    public static final String PERMISSION_STATUS = "PERMISSION_STATUS", SUBSCRIBE = "SUBSCRIBE", SUBSCRIPTION_STATUS = "SUBSCRIPTION_STATUS", TOKEN = "TOKEN";
 
-    public static boolean getPermissionStatus() {
+    public static void getPermissionStatus() {
         //Android doesn't require special permissions for push notifications. By default it is enabled.
-        return true;
+        fcmInterface.callback(PERMISSION_STATUS, true, "");
     }
 
     public static void subscribe(String topic) {
@@ -35,9 +36,10 @@ public class FCMHelper {
                         Boolean msg = true;
                         if (!task.isSuccessful()) {
                             msg = false;
+                            fcmInterface.callback(SUBSCRIBE, false, "");
                         }
                         Log.d(TAG, String.valueOf(msg));
-                        Toast.makeText(context, String.valueOf(msg), Toast.LENGTH_SHORT).show();
+                        fcmInterface.callback(SUBSCRIBE, true, "");
                     }
                 });
     }
@@ -50,11 +52,7 @@ public class FCMHelper {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         Boolean subscriptionStatus = task.isSuccessful();
-                        if (subscriptionStatus) {
-                            Toast.makeText(context, "Subscribed", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "Not subscribed", Toast.LENGTH_SHORT).show();
-                        }
+                        fcmInterface.callback(SUBSCRIBE, subscriptionStatus, "");
                     }
                 });
 
@@ -68,19 +66,19 @@ public class FCMHelper {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(context, "Fetching FCM registration token failed", Toast.LENGTH_SHORT).show();
+                            fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), "");
                             return;
                         } else {
                             // Get new FCM registration token
-                            String token = "FCM registration Token = " + task.getResult();
-                            Toast.makeText(context, token, Toast.LENGTH_SHORT).show();
+                            String token = task.getResult();
                             Log.d(TAG, token);
+                            fcmInterface.callback(SUBSCRIBE, task.isSuccessful(), token);
                         }
                     }
                 });
     }
 
-    private FCMHelper(Context context) {
+    private FCMHelper(Context context, FcmInterface fcmInterface) {
         // Library Initialized here
         this.context = context;
         FirebaseApp.initializeApp(context);
@@ -88,15 +86,25 @@ public class FCMHelper {
 
     public static class Builder {
         private Context context;
+        private FcmInterface fcmInterface;
 
         public Builder addContext(Context context) {
             this.context = context;
             return this;
         }
 
-        public FCMHelper build() {
-            return new FCMHelper(context);
+        public Builder addFCMInterface(FcmInterface fcmInterface) {
+            this.fcmInterface = fcmInterface;
+            return this;
         }
 
+        public FCMHelper build() {
+            return new FCMHelper(context, fcmInterface);
+        }
+
+    }
+
+    public interface FcmInterface {
+        void callback(String type, Boolean status, String token);
     }
 }
