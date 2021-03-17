@@ -87,7 +87,7 @@ public class FCMHelper extends AppCompatActivity  {
         // Library Initialized here
         this.context = context;
         this.fcmInterface = fcmInterface;
-        activity = this;
+        activity = FCMHelper.this;
         FirebaseApp.initializeApp(context);
     }
 
