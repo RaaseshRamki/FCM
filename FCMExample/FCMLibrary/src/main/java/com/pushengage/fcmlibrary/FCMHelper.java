@@ -3,6 +3,7 @@ package com.pushengage.fcmlibrary;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,14 +18,26 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.List;
 
-public class FCMHelper extends AppCompatActivity {
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+
+public class FCMHelper extends AppCompatActivity implements EasyPermissions.PermissionCallbacks,
+        EasyPermissions.RationaleCallbacks{
 
     private static Context context;
     private static String TAG = "FCMHelper";
     static FcmInterface fcmInterface;
     static Activity activity;
     public static final String PERMISSION_STATUS = "PERMISSION_STATUS", SUBSCRIBE = "SUBSCRIBE", SUBSCRIPTION_STATUS = "SUBSCRIPTION_STATUS", TOKEN = "TOKEN";
+
+
+    private static final int RC_LOCATION_PERM = 124;
+    private static final String[] LOCATION =
+            {Manifest.permission.ACCESS_FINE_LOCATION};
 
     public static void getPermissionStatus() {
         //Android doesn't require special permissions for push notifications. By default it is enabled.
@@ -95,6 +108,16 @@ public class FCMHelper extends AppCompatActivity {
         FirebaseApp.initializeApp(context);
     }
 
+    @Override
+    public void onRationaleAccepted(int requestCode) {
+
+    }
+
+    @Override
+    public void onRationaleDenied(int requestCode) {
+
+    }
+
     public static class Builder {
         private Context context;
         private FcmInterface fcmInterface;
@@ -131,6 +154,7 @@ public class FCMHelper extends AppCompatActivity {
         }
     }
 
+/*
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -156,5 +180,67 @@ public class FCMHelper extends AppCompatActivity {
         // Other 'case' lines to check for other
         // permissions this app might request.
     }
+*/
 
+    @AfterPermissionGranted(RC_LOCATION_PERM)
+    public void locationAndContactsTask() {
+        if (hasLocationAndContactsPermissions()) {
+            // Have permissions, do the thing!
+            Toast.makeText(this, "TODO: Location and Contacts things", Toast.LENGTH_LONG).show();
+        } else {
+            // Ask for both permissions
+            EasyPermissions.requestPermissions(
+                    this,
+                    "Location Permission",
+                    RC_LOCATION_PERM,
+                    LOCATION);
+        }
+    }
+
+    private boolean hasLocationAndContactsPermissions() {
+        return EasyPermissions.hasPermissions(this, LOCATION);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            String yes = "yes";
+            String no = "no";
+
+            // Do something after user returned from app settings screen, like showing a Toast.
+            Toast.makeText(
+                    this,
+                    hasLocationAndContactsPermissions() ? yes : no,
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+
+        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
+        // This will display a dialog directing them to enable the permission in app settings.
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
 }
