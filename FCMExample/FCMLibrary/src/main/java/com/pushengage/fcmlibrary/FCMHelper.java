@@ -18,12 +18,12 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 
-public class FCMHelper extends AppCompatActivity  {
+public class FCMHelper extends AppCompatActivity {
 
     private static Context context;
     private static String TAG = "FCMHelper";
     static FcmInterface fcmInterface;
-    static Activity activity ;
+    static Activity activity;
     public static final String PERMISSION_STATUS = "PERMISSION_STATUS", SUBSCRIBE = "SUBSCRIBE", SUBSCRIPTION_STATUS = "SUBSCRIPTION_STATUS", TOKEN = "TOKEN";
 
     public static void getPermissionStatus() {
@@ -83,6 +83,10 @@ public class FCMHelper extends AppCompatActivity  {
                 });
     }
 
+    private FCMHelper() {
+        // Library Initialized here
+    }
+
     private FCMHelper(Context context, FcmInterface fcmInterface) {
         // Library Initialized here
         this.context = context;
@@ -115,14 +119,15 @@ public class FCMHelper extends AppCompatActivity  {
         void callback(String type, Boolean status, String token);
     }
 
-    public static void checkLocationPermission(){
+    public static void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
             Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_LONG).show();
 
         } else {
-            ActivityCompat.requestPermissions(activity, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 100);
+            FCMHelper activity = new FCMHelper();
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         }
     }
 
