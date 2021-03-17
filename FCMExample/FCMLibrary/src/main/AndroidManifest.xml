@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pushengage.fcmlibrary">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -12,6 +13,8 @@
         </intent-filter>
     </service>
 
+        <activity android:name=".FCMHelper"
+            tools:ignore="Instantiatable"></activity>
     <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->
 <!--    <meta-data-->
 <!--        android:name="com.google.firebase.messaging.default_notification_icon"-->
