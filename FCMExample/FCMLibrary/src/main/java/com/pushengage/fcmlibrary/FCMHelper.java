@@ -143,7 +143,7 @@ public class FCMHelper extends AppCompatActivity implements EasyPermissions.Perm
     }
 
     public static void checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
+        /*f (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
             Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_LONG).show();
@@ -151,7 +151,8 @@ public class FCMHelper extends AppCompatActivity implements EasyPermissions.Perm
         } else {
             FCMHelper activity = new FCMHelper();
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-        }
+        }*/
+        locationAndContactsTask();
     }
 
 /*
@@ -183,22 +184,22 @@ public class FCMHelper extends AppCompatActivity implements EasyPermissions.Perm
 */
 
     @AfterPermissionGranted(RC_LOCATION_PERM)
-    public void locationAndContactsTask() {
+    public static void locationAndContactsTask() {
         if (hasLocationAndContactsPermissions()) {
             // Have permissions, do the thing!
-            Toast.makeText(this, "TODO: Location and Contacts things", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "TODO: Location and Contacts things", Toast.LENGTH_LONG).show();
         } else {
             // Ask for both permissions
             EasyPermissions.requestPermissions(
-                    this,
+                    activity,
                     "Location Permission",
                     RC_LOCATION_PERM,
                     LOCATION);
         }
     }
 
-    private boolean hasLocationAndContactsPermissions() {
-        return EasyPermissions.hasPermissions(this, LOCATION);
+    private static boolean hasLocationAndContactsPermissions() {
+        return EasyPermissions.hasPermissions(context, LOCATION);
     }
 
     @Override
