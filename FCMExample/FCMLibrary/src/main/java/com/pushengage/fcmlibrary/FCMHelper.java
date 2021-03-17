@@ -119,10 +119,10 @@ public class FCMHelper extends AppCompatActivity  {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
-            Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_LONG).show();
 
         } else {
-            ActivityCompat.requestPermissions((Activity) context, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 100);
+            ActivityCompat.requestPermissions(activity, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 100);
         }
     }
 
@@ -137,14 +137,14 @@ public class FCMHelper extends AppCompatActivity  {
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission is granted. Continue the action or workflow
                     // in your app.
-                    Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Permission Granted", Toast.LENGTH_LONG).show();
                 } else {
                     // Explain to the user that the feature is unavailable because
                     // the features requires a permission that the user has denied.
                     // At the same time, respect the user's decision. Don't link to
                     // system settings in an effort to convince the user to change
                     // their decision.
-                    Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Permission Denied", Toast.LENGTH_LONG).show();
                 }
                 return;
         }
