@@ -122,7 +122,7 @@ public class FCMHelper extends AppCompatActivity  {
             Toast.makeText(context, "Permission Already Granted", Toast.LENGTH_SHORT).show();
 
         } else {
-            ActivityCompat.requestPermissions(activity, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 100);
+            ActivityCompat.requestPermissions((Activity) context, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 100);
         }
     }
 
