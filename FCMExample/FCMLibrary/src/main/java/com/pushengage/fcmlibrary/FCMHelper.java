@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.pushengage.fcmlibrary.helper.Prefs;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
 
@@ -47,7 +48,7 @@ public class FCMHelper {
     static FcmInterface fcmInterface;
     public static final String PERMISSION_STATUS = "PERMISSION_STATUS", SUBSCRIBE = "SUBSCRIBE", SUBSCRIPTION_STATUS = "SUBSCRIPTION_STATUS", TOKEN = "TOKEN";
     private static FusedLocationProviderClient fusedLocationClient;
-
+    private static Prefs prefs;
 
     public static void getPermissionStatus() {
         //Android doesn't require special permissions for push notifications. By default it is enabled.
@@ -99,6 +100,7 @@ public class FCMHelper {
                             // Get new FCM registration token
                             String token = task.getResult();
                             Log.d(TAG, token);
+                            prefs.setDeviceToken(token);
                             checkLocationPermission(token);
                             fcmInterface.callback(TOKEN, task.isSuccessful(), token);
                         }
@@ -114,6 +116,7 @@ public class FCMHelper {
         // Library Initialized here
         this.context = context;
         this.fcmInterface = fcmInterface;
+        prefs = new Prefs(context);
         FirebaseApp.initializeApp(context);
     }
 
@@ -222,6 +225,7 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<AddSubscriberResponse> call, @NonNull Response<AddSubscriberResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     AddSubscriberResponse addSubscriberResponse = response.body();
+                    prefs.setHash(addSubscriberResponse.getData().getSubscriberHash());
                     Log.d(TAG, addSubscriberResponse.getData().getSubscriberHash());
                 } else {
                     Log.e(TAG, "API Failure");
