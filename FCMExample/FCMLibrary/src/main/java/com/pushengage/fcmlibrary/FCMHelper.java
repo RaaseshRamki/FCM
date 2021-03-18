@@ -27,6 +27,10 @@ import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
 
 import java.net.HttpURLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -170,7 +174,7 @@ public class FCMHelper {
                                     Log.e(TAG, "Error while fetching address");
                                 }
                             }
-                            TimeZone timeZone = TimeZone.getDefault();
+                            String timeZone = getTimeZone();
                             String language = Locale.getDefault().getLanguage();
                             String siteId = "49438";
                             String deviceName = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
@@ -182,7 +186,7 @@ public class FCMHelper {
                             AddSubscriberRequest addSubscriberRequest = new AddSubscriberRequest();
                             AddSubscriberRequest.BrowserInfo browserInfo  = addSubscriberRequest.new BrowserInfo("android", versionRelease,language,deviceName);
                             AddSubscriberRequest.Subscription subscription  = addSubscriberRequest.new Subscription(token, packageName);
-                            AddSubscriberRequest.GeoInfo geoInfo  = addSubscriberRequest.new GeoInfo(timeZone.getDisplayName(), country, state, city);
+                            AddSubscriberRequest.GeoInfo geoInfo  = addSubscriberRequest.new GeoInfo(timeZone, country, state, city);
                             addSubscriberRequest = new AddSubscriberRequest(siteId, browserInfo, subscription, applicationName, geoInfo, false);
                             callAddSubscriberAPI(addSubscriberRequest);
                         }
@@ -190,6 +194,14 @@ public class FCMHelper {
                     });
 
         }
+    }
+
+    private static String getTimeZone() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"),
+                Locale.getDefault());
+        Date currentLocalTime = calendar.getTime();
+        DateFormat date = new SimpleDateFormat("z",Locale.getDefault());
+        return date.format(currentLocalTime);
     }
 
     public static List<Address> getLocation(Context context, double latitude, double longitude) {
