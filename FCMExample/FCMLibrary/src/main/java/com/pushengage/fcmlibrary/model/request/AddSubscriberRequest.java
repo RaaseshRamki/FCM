@@ -4,9 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class AddSubscriberRequest {
+
+
     @SerializedName("site_id")
     @Expose
-    private Long siteId;
+    private String siteId;
     @SerializedName("browser_info")
     @Expose
     private BrowserInfo browserInfo;
@@ -21,10 +23,7 @@ public class AddSubscriberRequest {
     private GeoInfo geoInfo;
     @SerializedName("token_refresh")
     @Expose
-    private Boolean tokenRefresh;
-    @SerializedName("optin_type")
-    @Expose
-    private Long optinType;
+    private boolean tokenRefresh;
 
     /**
      * No args constructor for use in serialization
@@ -35,13 +34,12 @@ public class AddSubscriberRequest {
     /**
      * @param tokenRefresh
      * @param geoInfo
-     * @param optinType
      * @param siteId
      * @param subscription
      * @param browserInfo
      * @param subscriptionUrl
      */
-    public AddSubscriberRequest(Long siteId, BrowserInfo browserInfo, Subscription subscription, String subscriptionUrl, GeoInfo geoInfo, Boolean tokenRefresh, Long optinType) {
+    public AddSubscriberRequest(String siteId, BrowserInfo browserInfo, Subscription subscription, String subscriptionUrl, GeoInfo geoInfo, boolean tokenRefresh) {
         super();
         this.siteId = siteId;
         this.browserInfo = browserInfo;
@@ -49,14 +47,13 @@ public class AddSubscriberRequest {
         this.subscriptionUrl = subscriptionUrl;
         this.geoInfo = geoInfo;
         this.tokenRefresh = tokenRefresh;
-        this.optinType = optinType;
     }
 
-    public Long getSiteId() {
+    public String getSiteId() {
         return siteId;
     }
 
-    public void setSiteId(Long siteId) {
+    public void setSiteId(String siteId) {
         this.siteId = siteId;
     }
 
@@ -92,22 +89,13 @@ public class AddSubscriberRequest {
         this.geoInfo = geoInfo;
     }
 
-    public Boolean getTokenRefresh() {
+    public boolean isTokenRefresh() {
         return tokenRefresh;
     }
 
-    public void setTokenRefresh(Boolean tokenRefresh) {
+    public void setTokenRefresh(boolean tokenRefresh) {
         this.tokenRefresh = tokenRefresh;
     }
-
-    public Long getOptinType() {
-        return optinType;
-    }
-
-    public void setOptinType(Long optinType) {
-        this.optinType = optinType;
-    }
-
 
     public class BrowserInfo {
 
@@ -117,30 +105,12 @@ public class AddSubscriberRequest {
         @SerializedName("browser_version")
         @Expose
         private String browserVersion;
-        @SerializedName("user_agent")
-        @Expose
-        private String userAgent;
         @SerializedName("language")
         @Expose
         private String language;
-        @SerializedName("total_scr_width_height")
-        @Expose
-        private String totalScrWidthHeight;
-        @SerializedName("available_scr_width_height")
-        @Expose
-        private String availableScrWidthHeight;
-        @SerializedName("colour_resolution")
-        @Expose
-        private Long colourResolution;
-        @SerializedName("host")
-        @Expose
-        private String host;
         @SerializedName("device")
         @Expose
         private String device;
-        @SerializedName("pe_ref_url")
-        @Expose
-        private String peRefUrl;
 
         /**
          * No args constructor for use in serialization
@@ -150,28 +120,16 @@ public class AddSubscriberRequest {
 
         /**
          * @param deviceType
-         * @param colourResolution
-         * @param peRefUrl
          * @param browserVersion
-         * @param host
-         * @param userAgent
          * @param language
-         * @param totalScrWidthHeight
-         * @param availableScrWidthHeight
          * @param device
          */
-        public BrowserInfo(String deviceType, String browserVersion, String userAgent, String language, String totalScrWidthHeight, String availableScrWidthHeight, Long colourResolution, String host, String device, String peRefUrl) {
+        public BrowserInfo(String deviceType, String browserVersion, String language, String device) {
             super();
             this.deviceType = deviceType;
             this.browserVersion = browserVersion;
-            this.userAgent = userAgent;
             this.language = language;
-            this.totalScrWidthHeight = totalScrWidthHeight;
-            this.availableScrWidthHeight = availableScrWidthHeight;
-            this.colourResolution = colourResolution;
-            this.host = host;
             this.device = device;
-            this.peRefUrl = peRefUrl;
         }
 
         public String getDeviceType() {
@@ -190,14 +148,6 @@ public class AddSubscriberRequest {
             this.browserVersion = browserVersion;
         }
 
-        public String getUserAgent() {
-            return userAgent;
-        }
-
-        public void setUserAgent(String userAgent) {
-            this.userAgent = userAgent;
-        }
-
         public String getLanguage() {
             return language;
         }
@@ -206,52 +156,12 @@ public class AddSubscriberRequest {
             this.language = language;
         }
 
-        public String getTotalScrWidthHeight() {
-            return totalScrWidthHeight;
-        }
-
-        public void setTotalScrWidthHeight(String totalScrWidthHeight) {
-            this.totalScrWidthHeight = totalScrWidthHeight;
-        }
-
-        public String getAvailableScrWidthHeight() {
-            return availableScrWidthHeight;
-        }
-
-        public void setAvailableScrWidthHeight(String availableScrWidthHeight) {
-            this.availableScrWidthHeight = availableScrWidthHeight;
-        }
-
-        public Long getColourResolution() {
-            return colourResolution;
-        }
-
-        public void setColourResolution(Long colourResolution) {
-            this.colourResolution = colourResolution;
-        }
-
-        public String getHost() {
-            return host;
-        }
-
-        public void setHost(String host) {
-            this.host = host;
-        }
-
         public String getDevice() {
             return device;
         }
 
         public void setDevice(String device) {
             this.device = device;
-        }
-
-        public String getPeRefUrl() {
-            return peRefUrl;
-        }
-
-        public void setPeRefUrl(String peRefUrl) {
-            this.peRefUrl = peRefUrl;
         }
 
     }
@@ -264,24 +174,12 @@ public class AddSubscriberRequest {
         @SerializedName("geobytescountry")
         @Expose
         private String geobytescountry;
-        @SerializedName("geobytesinternet")
-        @Expose
-        private String geobytesinternet;
         @SerializedName("geobytesregion")
         @Expose
         private String geobytesregion;
-        @SerializedName("geobytescode")
-        @Expose
-        private String geobytescode;
         @SerializedName("geobytescity")
         @Expose
         private String geobytescity;
-        @SerializedName("geobytesfqcn")
-        @Expose
-        private String geobytesfqcn;
-        @SerializedName("geobytesipaddress")
-        @Expose
-        private String geobytesipaddress;
 
         /**
          * No args constructor for use in serialization
@@ -291,24 +189,16 @@ public class AddSubscriberRequest {
 
         /**
          * @param geobytestimezone
-         * @param geobytesipaddress
-         * @param geobytesinternet
          * @param geobytescity
          * @param geobytescountry
          * @param geobytesregion
-         * @param geobytescode
-         * @param geobytesfqcn
          */
-        public GeoInfo(String geobytestimezone, String geobytescountry, String geobytesinternet, String geobytesregion, String geobytescode, String geobytescity, String geobytesfqcn, String geobytesipaddress) {
+        public GeoInfo(String geobytestimezone, String geobytescountry, String geobytesregion, String geobytescity) {
             super();
             this.geobytestimezone = geobytestimezone;
             this.geobytescountry = geobytescountry;
-            this.geobytesinternet = geobytesinternet;
             this.geobytesregion = geobytesregion;
-            this.geobytescode = geobytescode;
             this.geobytescity = geobytescity;
-            this.geobytesfqcn = geobytesfqcn;
-            this.geobytesipaddress = geobytesipaddress;
         }
 
         public String getGeobytestimezone() {
@@ -327,14 +217,6 @@ public class AddSubscriberRequest {
             this.geobytescountry = geobytescountry;
         }
 
-        public String getGeobytesinternet() {
-            return geobytesinternet;
-        }
-
-        public void setGeobytesinternet(String geobytesinternet) {
-            this.geobytesinternet = geobytesinternet;
-        }
-
         public String getGeobytesregion() {
             return geobytesregion;
         }
@@ -343,36 +225,12 @@ public class AddSubscriberRequest {
             this.geobytesregion = geobytesregion;
         }
 
-        public String getGeobytescode() {
-            return geobytescode;
-        }
-
-        public void setGeobytescode(String geobytescode) {
-            this.geobytescode = geobytescode;
-        }
-
         public String getGeobytescity() {
             return geobytescity;
         }
 
         public void setGeobytescity(String geobytescity) {
             this.geobytescity = geobytescity;
-        }
-
-        public String getGeobytesfqcn() {
-            return geobytesfqcn;
-        }
-
-        public void setGeobytesfqcn(String geobytesfqcn) {
-            this.geobytesfqcn = geobytesfqcn;
-        }
-
-        public String getGeobytesipaddress() {
-            return geobytesipaddress;
-        }
-
-        public void setGeobytesipaddress(String geobytesipaddress) {
-            this.geobytesipaddress = geobytesipaddress;
         }
 
     }
@@ -419,4 +277,5 @@ public class AddSubscriberRequest {
         }
 
     }
+
 }
