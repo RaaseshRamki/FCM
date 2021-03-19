@@ -26,6 +26,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.pushengage.fcmlibrary.helper.Prefs;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
+import com.pushengage.fcmlibrary.model.response.SubscriberHashResponse;
 
 import java.net.HttpURLConnection;
 import java.text.DateFormat;
@@ -234,6 +235,26 @@ public class FCMHelper {
 
             @Override
             public void onFailure(@NonNull Call<AddSubscriberResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void getSubscriberHashDetails(List<String> values) {
+        Call<SubscriberHashResponse> subscriberDetailsResponseCall = RestClient.getUnAuthorisedClient(context).subscriberDetails(prefs.getHash(), values);
+        subscriberDetailsResponseCall.enqueue(new Callback<SubscriberHashResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<SubscriberHashResponse> call, @NonNull Response<SubscriberHashResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    SubscriberHashResponse subscriberHashResponse = response.body();
+                    Log.d(TAG, subscriberHashResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SubscriberHashResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, "API Failure");
             }
         });

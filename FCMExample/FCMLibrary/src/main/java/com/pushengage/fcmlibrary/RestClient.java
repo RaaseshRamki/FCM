@@ -7,8 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
+import com.pushengage.fcmlibrary.model.response.SubscriberHashResponse;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +31,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import retrofit2.http.Streaming;
 
 public class RestClient {
@@ -75,7 +80,7 @@ public class RestClient {
     }
 
     public static Retrofit getRetrofitClient(final boolean isAuthenticateAdded, final boolean refreshToken, boolean isBaseUrlChange) {
-        String baseUrl = "https://staging-dexter.pushengage.com/";
+        String baseUrl = "https://staging-dexter.pushengage.com/p/v1/";
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -110,11 +115,11 @@ public class RestClient {
 
 
     public interface RTApiInterface {
-        @POST("p/v1/subscriber/add")
+        @POST("subscriber/add")
         Call<AddSubscriberResponse> addSubscriber(@Body AddSubscriberRequest addSubscriberRequest);
 
-//        @GET("licence/getChannelConfig")
-//        Call<BBChannelConfigResponse> channelConfig();
+        @GET("subscriber")
+        Call<SubscriberHashResponse> subscriberDetails(@Path("id") String id, @Query("fields") List<String> taskIds);
 
     }
 }
