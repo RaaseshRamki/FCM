@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.pushengage.fcmlibrary.helper.Prefs;
 import com.pushengage.fcmlibrary.model.request.AddDynamicSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.AddProfileIdRequest;
@@ -328,7 +330,9 @@ public class FCMHelper {
         });
     }
 
-    public static void addSubscriberAttributes(JSONObject jsonObject) {
+    public static void addSubscriberAttributes(JSONObject obj) {
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = (JsonObject)jsonParser.parse(obj.toString());
         Call<GenricResponse> addSubscriberAttributesResponseCall = RestClient.getUnAuthorisedClient(context).addAttributes(prefs.getHash(), jsonObject);
         addSubscriberAttributesResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.pushengage.fcmlibrary.model.request.AddDynamicSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.AddProfileIdRequest;
 import com.pushengage.fcmlibrary.model.request.AddSegmentRequest;
@@ -31,6 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -127,11 +129,11 @@ public class RestClient {
         @GET("subscriber/{id}/attributes")
         Call<GenricResponse> getSubscriberAttributes(@Path("id") String id);
 
-        @DELETE("subscriber/{id}/attributes")
+        @HTTP(method = "DELETE", path = "subscriber/{id}/attributes", hasBody = true)
         Call<GenricResponse> deleteSubscriberAttributes(@Path("id") String id, @Body List<String> value);
 
         @POST("subscriber/{id}/attributes")
-        Call<GenricResponse> addAttributes(@Path("id") String id, @Body JSONObject jsonObject);
+        Call<GenricResponse> addAttributes(@Path("id") String id, @Body JsonObject jsonObject);
 
         @POST("subscriber/profile-id/add")
         Call<GenricResponse> addProfileId(@Body AddProfileIdRequest addProfileIdRequest);
