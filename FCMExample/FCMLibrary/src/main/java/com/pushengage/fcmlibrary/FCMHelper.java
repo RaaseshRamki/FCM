@@ -13,7 +13,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -24,9 +23,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.pushengage.fcmlibrary.helper.Prefs;
+import com.pushengage.fcmlibrary.model.request.AddDynamicSegmentRequest;
+import com.pushengage.fcmlibrary.model.request.AddProfileIdRequest;
+import com.pushengage.fcmlibrary.model.request.AddSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
+import com.pushengage.fcmlibrary.model.request.RemoveDynamicSegmentRequest;
+import com.pushengage.fcmlibrary.model.request.SegmentHashArrayRequest;
+import com.pushengage.fcmlibrary.model.request.UpdateSubscriberStatusRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
-import com.pushengage.fcmlibrary.model.response.SubscriberHashResponse;
+import com.pushengage.fcmlibrary.model.response.GenricResponse;
+
+import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.text.DateFormat;
@@ -184,13 +191,14 @@ public class FCMHelper {
                             String deviceName = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
                             String versionRelease = Build.VERSION.RELEASE;
                             String applicationName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
-                            String packageName= context.getPackageName();;
+                            String packageName = context.getPackageName();
+                            ;
 
 
                             AddSubscriberRequest addSubscriberRequest = new AddSubscriberRequest();
-                            AddSubscriberRequest.BrowserInfo browserInfo  = addSubscriberRequest.new BrowserInfo("android", versionRelease,language,deviceName);
-                            AddSubscriberRequest.Subscription subscription  = addSubscriberRequest.new Subscription(token, packageName);
-                            AddSubscriberRequest.GeoInfo geoInfo  = addSubscriberRequest.new GeoInfo(timeZone, country, state, city);
+                            AddSubscriberRequest.BrowserInfo browserInfo = addSubscriberRequest.new BrowserInfo("android", versionRelease, language, deviceName);
+                            AddSubscriberRequest.Subscription subscription = addSubscriberRequest.new Subscription(token, packageName);
+                            AddSubscriberRequest.GeoInfo geoInfo = addSubscriberRequest.new GeoInfo(timeZone, country, state, city);
                             addSubscriberRequest = new AddSubscriberRequest(siteId, browserInfo, subscription, applicationName, geoInfo, false);
                             callAddSubscriberAPI(addSubscriberRequest);
                         }
@@ -204,7 +212,7 @@ public class FCMHelper {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"),
                 Locale.getDefault());
         Date currentLocalTime = calendar.getTime();
-        DateFormat date = new SimpleDateFormat("z",Locale.getDefault());
+        DateFormat date = new SimpleDateFormat("z", Locale.getDefault());
         return date.format(currentLocalTime);
     }
 
@@ -241,24 +249,263 @@ public class FCMHelper {
     }
 
     public static void getSubscriberHashDetails(List<String> values) {
-        Call<SubscriberHashResponse> subscriberDetailsResponseCall = RestClient.getUnAuthorisedClient(context).subscriberDetails(prefs.getHash(), values);
-        subscriberDetailsResponseCall.enqueue(new Callback<SubscriberHashResponse>() {
+        Call<GenricResponse> subscriberDetailsResponseCall = RestClient.getUnAuthorisedClient(context).subscriberDetails(prefs.getHash(), values);
+        subscriberDetailsResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
-            public void onResponse(@NonNull Call<SubscriberHashResponse> call, @NonNull Response<SubscriberHashResponse> response) {
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
-                    SubscriberHashResponse subscriberHashResponse = response.body();
-                    Log.d(TAG, subscriberHashResponse.getData().toString());
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<SubscriberHashResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, "API Failure");
             }
         });
     }
 
+    public static void getSubscriberAttributes() {
+        Call<GenricResponse> getSubscriberAttributesResponseCall = RestClient.getUnAuthorisedClient(context).getSubscriberAttributes(prefs.getHash());
+        getSubscriberAttributesResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void deleteSubscriberAttributes(List<String> values) {
+        Call<GenricResponse> deleteSubscriberAttributesResponseCall = RestClient.getUnAuthorisedClient(context).deleteSubscriberAttributes(prefs.getHash(), values);
+        deleteSubscriberAttributesResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void addSubscriberAttributes(JSONObject jsonObject) {
+        Call<GenricResponse> addSubscriberAttributesResponseCall = RestClient.getUnAuthorisedClient(context).addAttributes(prefs.getHash(), jsonObject);
+        addSubscriberAttributesResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void addProfileId(AddProfileIdRequest addProfileIdRequest) {
+        Call<GenricResponse> addProfileIdResponseCall = RestClient.getUnAuthorisedClient(context).addProfileId(addProfileIdRequest);
+        addProfileIdResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void addSegment(AddSegmentRequest addSegmentRequest) {
+        Call<GenricResponse> addSegmentResponseCall = RestClient.getUnAuthorisedClient(context).addSegments(addSegmentRequest);
+        addSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void removeSegment(AddSegmentRequest addSegmentRequest) {
+        Call<GenricResponse> removeSegmentResponseCall = RestClient.getUnAuthorisedClient(context).removeSegments(addSegmentRequest);
+        removeSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void addDynamicSegment(AddDynamicSegmentRequest addDynamicSegmentRequest) {
+        Call<GenricResponse> addDynamicSegmentResponseCall = RestClient.getUnAuthorisedClient(context).addDynamicSegments(addDynamicSegmentRequest);
+        addDynamicSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void removeDynamicSegment(RemoveDynamicSegmentRequest removeDynamicSegmentRequest) {
+        Call<GenricResponse> removeDynamicSegmentResponseCall = RestClient.getUnAuthorisedClient(context).removeDynamicSegments(removeDynamicSegmentRequest);
+        removeDynamicSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void getSegmentHashArray(SegmentHashArrayRequest segmentHashArrayRequest) {
+        Call<GenricResponse> segmentHashArrayResponseCall = RestClient.getUnAuthorisedClient(context).getSegmentHashArray(segmentHashArrayRequest);
+        segmentHashArrayResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void checkSubscriberHash(String hash) {
+        Call<GenricResponse> checkSubscriberHashResponseCall = RestClient.getUnAuthorisedClient(context).checkSubscriberHash(hash);
+        checkSubscriberHashResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void updateTriggerStatus(String swv, String bv) {
+        Call<GenricResponse> updateTriggerStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateTriggerStatus(swv, bv);
+        updateTriggerStatusResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void updateSubscriberStatus(String swv, String bv, UpdateSubscriberStatusRequest updateSubscriberStatusRequest) {
+        Call<GenricResponse> updateSubscriberStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateSubscriberStatus(swv, bv, updateSubscriberStatusRequest);
+        updateSubscriberStatusResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
 
 }

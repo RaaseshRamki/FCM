@@ -1,40 +1,39 @@
 package com.pushengage.fcmlibrary;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pushengage.fcmlibrary.model.request.AddDynamicSegmentRequest;
+import com.pushengage.fcmlibrary.model.request.AddProfileIdRequest;
+import com.pushengage.fcmlibrary.model.request.AddSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
+import com.pushengage.fcmlibrary.model.request.RemoveDynamicSegmentRequest;
+import com.pushengage.fcmlibrary.model.request.SegmentHashArrayRequest;
+import com.pushengage.fcmlibrary.model.request.UpdateSubscriberStatusRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
-import com.pushengage.fcmlibrary.model.response.SubscriberHashResponse;
+import com.pushengage.fcmlibrary.model.response.GenricResponse;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
-import retrofit2.http.Streaming;
 
 public class RestClient {
     public static final String REQUESTED_WITH_VALUE = "XMLHttpRequest";
@@ -118,8 +117,47 @@ public class RestClient {
         @POST("subscriber/add")
         Call<AddSubscriberResponse> addSubscriber(@Body AddSubscriberRequest addSubscriberRequest);
 
-        @GET("subscriber")
-        Call<SubscriberHashResponse> subscriberDetails(@Path("id") String id, @Query("fields") List<String> taskIds);
+        @GET("subscriber/{id}")
+        Call<GenricResponse> subscriberDetails(@Path("id") String id, @Query("fields") List<String> taskIds);
+
+        /*@PUT("subscriber/{id}")
+        Call<ResponseBody> updateSubscriberHash(@Path("id") String id, @Body Gist gist);*/
+
+        @GET("subscriber/{id}/attribute")
+        Call<GenricResponse> getSubscriberAttributes(@Path("id") String id);
+
+        @DELETE("subscriber/{id}/attribute")
+        Call<GenricResponse> deleteSubscriberAttributes(@Path("id") String id, @Body List<String> value);
+
+        @POST("subscriber/{id}/attribute")
+        Call<GenricResponse> addAttributes(@Path("id") String id, @Body JSONObject jsonObject);
+
+        @POST("subscriber/profile-id/add")
+        Call<GenricResponse> addProfileId(@Body AddProfileIdRequest addProfileIdRequest);
+
+        @POST("subscriber/segments/add")
+        Call<GenricResponse> addSegments(@Body AddSegmentRequest addSegmentRequest);
+
+        @POST("subscriber/segments/remove")
+        Call<GenricResponse> removeSegments(@Body AddSegmentRequest addSegmentRequest);
+
+        @POST("subscriber/dynamicSegments/add")
+        Call<GenricResponse> addDynamicSegments(@Body AddDynamicSegmentRequest addDynamicSegmentRequest);
+
+        @POST("subscriber/dynamicSegments/remove")
+        Call<GenricResponse> removeDynamicSegments(@Body RemoveDynamicSegmentRequest removeDynamicSegmentRequest);
+
+        @POST("subscriber/segments/segmentHashArray")
+        Call<GenricResponse> getSegmentHashArray(@Body SegmentHashArrayRequest segmentHashArrayRequest);
+
+        @GET("subscriber/check/{id}")
+        Call<GenricResponse> checkSubscriberHash(@Path("id") String id);
+
+        @POST("subscriber/updatetriggerstatus")
+        Call<GenricResponse> updateTriggerStatus(@Query("swv") String  swv, @Query("bv") String  bv);
+
+        @POST("subscriber/updatesubscriberstatus")
+        Call<GenricResponse> updateSubscriberStatus(@Query("swv") String  swv, @Query("bv") String  bv, @Body UpdateSubscriberStatusRequest updateSubscriberStatusRequest);
 
     }
 }

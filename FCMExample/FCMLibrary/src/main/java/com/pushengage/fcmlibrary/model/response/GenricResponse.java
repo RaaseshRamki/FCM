@@ -3,14 +3,14 @@ package com.pushengage.fcmlibrary.model.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SubscriberHashResponse {
+public class GenricResponse {
 
     @SerializedName("error_code")
     @Expose
     private Long errorCode;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private Object data;
     @SerializedName("error_message")
     @Expose
     private String errorMessage;
@@ -21,7 +21,7 @@ public class SubscriberHashResponse {
     /**
      * No args constructor for use in serialization
      */
-    public SubscriberHashResponse() {
+    public GenricResponse() {
     }
 
     /**
@@ -30,7 +30,7 @@ public class SubscriberHashResponse {
      * @param errorCode
      * @param error
      */
-    public SubscriberHashResponse(Long errorCode, Data data, String errorMessage, Error error) {
+    public GenricResponse(Long errorCode, Object data, String errorMessage, Error error) {
         super();
         this.errorCode = errorCode;
         this.data = data;
@@ -46,11 +46,11 @@ public class SubscriberHashResponse {
         this.errorCode = errorCode;
     }
 
-    public Data getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -69,12 +69,6 @@ public class SubscriberHashResponse {
     public void setError(Error error) {
         this.error = error;
     }
-
-    public class Data {
-
-
-    }
-
 
     public class Error {
 
