@@ -32,6 +32,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -118,10 +119,10 @@ public class RestClient {
         Call<AddSubscriberResponse> addSubscriber(@Body AddSubscriberRequest addSubscriberRequest);
 
         @GET("subscriber/{id}")
-        Call<GenricResponse> subscriberDetails(@Path("id") String id, @Query("fields") List<String> taskIds);
+        Call<GenricResponse> subscriberDetails(@Path("id") String id, @Query("fields") List<String> fields);
 
-        /*@PUT("subscriber/{id}")
-        Call<ResponseBody> updateSubscriberHash(@Path("id") String id, @Body Gist gist);*/
+        @PUT("subscriber/{id}")
+        Call<GenricResponse> updateSubscriberHash(@Path("id") String id, @Body JSONObject jsonObject);
 
         @GET("subscriber/{id}/attribute")
         Call<GenricResponse> getSubscriberAttributes(@Path("id") String id);

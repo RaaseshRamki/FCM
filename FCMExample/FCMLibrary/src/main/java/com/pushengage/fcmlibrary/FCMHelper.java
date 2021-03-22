@@ -268,6 +268,26 @@ public class FCMHelper {
         });
     }
 
+    public static void updateSubscriberHashDetails(JSONObject jsonObject) {
+        Call<GenricResponse> updateSubscriberDetailsResponseCall = RestClient.getUnAuthorisedClient(context).updateSubscriberHash(prefs.getHash(), jsonObject);
+        updateSubscriberDetailsResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                    Log.d(TAG, genricResponse.getData().toString());
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
     public static void getSubscriberAttributes() {
         Call<GenricResponse> getSubscriberAttributesResponseCall = RestClient.getUnAuthorisedClient(context).getSubscriberAttributes(prefs.getHash());
         getSubscriberAttributesResponseCall.enqueue(new Callback<GenricResponse>() {
