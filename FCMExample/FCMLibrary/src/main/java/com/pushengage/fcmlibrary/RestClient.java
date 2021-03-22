@@ -124,13 +124,13 @@ public class RestClient {
         @PUT("subscriber/{id}")
         Call<GenricResponse> updateSubscriberHash(@Path("id") String id, @Body JSONObject jsonObject);
 
-        @GET("subscriber/{id}/attribute")
+        @GET("subscriber/{id}/attributes")
         Call<GenricResponse> getSubscriberAttributes(@Path("id") String id);
 
-        @DELETE("subscriber/{id}/attribute")
+        @DELETE("subscriber/{id}/attributes")
         Call<GenricResponse> deleteSubscriberAttributes(@Path("id") String id, @Body List<String> value);
 
-        @POST("subscriber/{id}/attribute")
+        @POST("subscriber/{id}/attributes")
         Call<GenricResponse> addAttributes(@Path("id") String id, @Body JSONObject jsonObject);
 
         @POST("subscriber/profile-id/add")
