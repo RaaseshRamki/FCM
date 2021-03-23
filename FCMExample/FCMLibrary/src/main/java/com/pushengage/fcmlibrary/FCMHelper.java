@@ -466,8 +466,8 @@ public class FCMHelper {
         });
     }
 
-    public static void checkSubscriberHash(String hash) {
-        Call<GenricResponse> checkSubscriberHashResponseCall = RestClient.getUnAuthorisedClient(context).checkSubscriberHash(hash);
+    public static void checkSubscriberHash() {
+        Call<GenricResponse> checkSubscriberHashResponseCall = RestClient.getUnAuthorisedClient(context).checkSubscriberHash(prefs.getHash());
         checkSubscriberHashResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
@@ -486,6 +486,7 @@ public class FCMHelper {
     }
 
     public static void updateTriggerStatus(UpdateTriggerStatusRequest updateTriggerStatusRequest) {
+        updateTriggerStatusRequest.setDeviceTokenHash(prefs.getHash());
         Call<GenricResponse> updateTriggerStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateTriggerStatus(updateTriggerStatusRequest);
         updateTriggerStatusResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
@@ -504,7 +505,8 @@ public class FCMHelper {
         });
     }
 
-    public static void updateSubscriberStatus(String swv, String bv, UpdateSubscriberStatusRequest updateSubscriberStatusRequest) {
+    public static void updateSubscriberStatus(UpdateSubscriberStatusRequest updateSubscriberStatusRequest) {
+        updateSubscriberStatusRequest.setDeviceTokenHash(prefs.getHash());
         Call<GenricResponse> updateSubscriberStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateSubscriberStatus(updateSubscriberStatusRequest);
         updateSubscriberStatusResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override

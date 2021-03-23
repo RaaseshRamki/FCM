@@ -7,7 +7,7 @@ public class UpdateTriggerStatusRequest {
 
     @SerializedName("site_id")
     @Expose
-    private long siteId;
+    private String siteId;
     @SerializedName("device_token_hash")
     @Expose
     private String deviceTokenHash;
@@ -26,18 +26,18 @@ public class UpdateTriggerStatusRequest {
      * @param siteId
      * @param deviceTokenHash
      */
-    public UpdateTriggerStatusRequest(long siteId, String deviceTokenHash, long triggerStatus) {
+    public UpdateTriggerStatusRequest(String siteId, String deviceTokenHash, long triggerStatus) {
         super();
         this.siteId = siteId;
         this.deviceTokenHash = deviceTokenHash;
         this.triggerStatus = triggerStatus;
     }
 
-    public long getSiteId() {
+    public String getSiteId() {
         return siteId;
     }
 
-    public void setSiteId(long siteId) {
+    public void setSiteId(String siteId) {
         this.siteId = siteId;
     }
 
