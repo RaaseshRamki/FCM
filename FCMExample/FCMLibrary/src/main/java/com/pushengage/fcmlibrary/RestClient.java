@@ -172,7 +172,7 @@ public class RestClient {
         Call<GenricResponse> checkSubscriberHash(@Path("id") String id);
 
         @POST("subscriber/updatetriggerstatus")
-        Call<GenricResponse> updateTriggerStatus(UpdateTriggerStatusRequest updateTriggerStatusRequest);
+        Call<GenricResponse> updateTriggerStatus(@Body UpdateTriggerStatusRequest updateTriggerStatusRequest);
 
         @POST("subscriber/updatesubscriberstatus")
         Call<GenricResponse> updateSubscriberStatus(@Body UpdateSubscriberStatusRequest updateSubscriberStatusRequest);

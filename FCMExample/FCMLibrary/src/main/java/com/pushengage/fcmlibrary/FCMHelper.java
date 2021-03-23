@@ -448,6 +448,7 @@ public class FCMHelper {
     }
 
     public static void getSegmentHashArray(SegmentHashArrayRequest segmentHashArrayRequest) {
+        segmentHashArrayRequest.setDeviceTokenHash(prefs.getHash());
         Call<GenricResponse> segmentHashArrayResponseCall = RestClient.getUnAuthorisedClient(context).getSegmentHashArray(segmentHashArrayRequest);
         segmentHashArrayResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
