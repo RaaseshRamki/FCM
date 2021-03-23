@@ -33,6 +33,7 @@ import com.pushengage.fcmlibrary.model.request.RemoveDynamicSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.RemoveSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.SegmentHashArrayRequest;
 import com.pushengage.fcmlibrary.model.request.UpdateSubscriberStatusRequest;
+import com.pushengage.fcmlibrary.model.request.UpdateTriggerStatusRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
 import com.pushengage.fcmlibrary.model.response.GenricResponse;
 
@@ -484,8 +485,8 @@ public class FCMHelper {
         });
     }
 
-    public static void updateTriggerStatus(String swv, String bv) {
-        Call<GenricResponse> updateTriggerStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateTriggerStatus(swv, bv);
+    public static void updateTriggerStatus(UpdateTriggerStatusRequest updateTriggerStatusRequest) {
+        Call<GenricResponse> updateTriggerStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateTriggerStatus(updateTriggerStatusRequest);
         updateTriggerStatusResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
@@ -504,7 +505,7 @@ public class FCMHelper {
     }
 
     public static void updateSubscriberStatus(String swv, String bv, UpdateSubscriberStatusRequest updateSubscriberStatusRequest) {
-        Call<GenricResponse> updateSubscriberStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateSubscriberStatus(swv, bv, updateSubscriberStatusRequest);
+        Call<GenricResponse> updateSubscriberStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateSubscriberStatus(updateSubscriberStatusRequest);
         updateSubscriberStatusResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
