@@ -10,6 +10,7 @@ import com.pushengage.fcmlibrary.model.request.AddProfileIdRequest;
 import com.pushengage.fcmlibrary.model.request.AddSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
 import com.pushengage.fcmlibrary.model.request.RemoveDynamicSegmentRequest;
+import com.pushengage.fcmlibrary.model.request.RemoveSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.SegmentHashArrayRequest;
 import com.pushengage.fcmlibrary.model.request.UpdateSubscriberStatusRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
@@ -142,7 +143,7 @@ public class RestClient {
         Call<GenricResponse> addSegments(@Body AddSegmentRequest addSegmentRequest);
 
         @POST("subscriber/segments/remove")
-        Call<GenricResponse> removeSegments(@Body AddSegmentRequest addSegmentRequest);
+        Call<GenricResponse> removeSegments(@Body RemoveSegmentRequest removeSegmentRequest);
 
         @POST("subscriber/dynamicSegments/add")
         Call<GenricResponse> addDynamicSegments(@Body AddDynamicSegmentRequest addDynamicSegmentRequest);

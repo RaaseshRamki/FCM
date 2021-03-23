@@ -7,7 +7,7 @@ public class UpdateSubscriberStatusRequest {
 
     @SerializedName("site_id")
     @Expose
-    private long siteId;
+    private String siteId;
     @SerializedName("device_token_hash")
     @Expose
     private String deviceTokenHash;
@@ -28,18 +28,18 @@ public class UpdateSubscriberStatusRequest {
      * @param isUnSubscribed
      * @param deviceTokenHash
      */
-    public UpdateSubscriberStatusRequest(long siteId, String deviceTokenHash, long isUnSubscribed) {
+    public UpdateSubscriberStatusRequest(String siteId, String deviceTokenHash, long isUnSubscribed) {
         super();
         this.siteId = siteId;
         this.deviceTokenHash = deviceTokenHash;
         this.isUnSubscribed = isUnSubscribed;
     }
 
-    public long getSiteId() {
+    public String getSiteId() {
         return siteId;
     }
 
-    public void setSiteId(long siteId) {
+    public void setSiteId(String siteId) {
         this.siteId = siteId;
     }
 

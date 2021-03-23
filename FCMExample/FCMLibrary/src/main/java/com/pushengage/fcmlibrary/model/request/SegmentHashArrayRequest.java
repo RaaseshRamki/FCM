@@ -10,10 +10,10 @@ public class SegmentHashArrayRequest {
     private String deviceTokenHash;
     @SerializedName("site_id")
     @Expose
-    private long siteId;
+    private String siteId;
     @SerializedName("segment_id")
     @Expose
-    private long segmentId;
+    private String segmentId;
 
     /**
      * No args constructor for use in serialization
@@ -26,7 +26,7 @@ public class SegmentHashArrayRequest {
      * @param siteId
      * @param deviceTokenHash
      */
-    public SegmentHashArrayRequest(String deviceTokenHash, long siteId, long segmentId) {
+    public SegmentHashArrayRequest(String deviceTokenHash, String siteId, String segmentId) {
         super();
         this.deviceTokenHash = deviceTokenHash;
         this.siteId = siteId;
@@ -41,19 +41,19 @@ public class SegmentHashArrayRequest {
         this.deviceTokenHash = deviceTokenHash;
     }
 
-    public long getSiteId() {
+    public String getSiteId() {
         return siteId;
     }
 
-    public void setSiteId(long siteId) {
+    public void setSiteId(String siteId) {
         this.siteId = siteId;
     }
 
-    public long getSegmentId() {
+    public String getSegmentId() {
         return segmentId;
     }
 
-    public void setSegmentId(long segmentId) {
+    public void setSegmentId(String segmentId) {
         this.segmentId = segmentId;
     }
 

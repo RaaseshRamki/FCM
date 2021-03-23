@@ -13,7 +13,7 @@ public class AddProfileIdRequest {
     private String profileId;
     @SerializedName("site_id")
     @Expose
-    private Long siteId;
+    private String siteId;
     @SerializedName("device_type")
     @Expose
     private String deviceType;
@@ -30,7 +30,7 @@ public class AddProfileIdRequest {
      * @param siteId
      * @param deviceTokenHash
      */
-    public AddProfileIdRequest(String deviceTokenHash, String profileId, Long siteId, String deviceType) {
+    public AddProfileIdRequest(String deviceTokenHash, String profileId, String siteId, String deviceType) {
         super();
         this.deviceTokenHash = deviceTokenHash;
         this.profileId = profileId;
@@ -54,11 +54,11 @@ public class AddProfileIdRequest {
         this.profileId = profileId;
     }
 
-    public Long getSiteId() {
+    public String getSiteId() {
         return siteId;
     }
 
-    public void setSiteId(Long siteId) {
+    public void setSiteId(String siteId) {
         this.siteId = siteId;
     }
 

@@ -12,7 +12,7 @@ public class AddDynamicSegmentRequest {
     private String deviceToken;
     @SerializedName("site_id")
     @Expose
-    private long siteId;
+    private String siteId;
     @SerializedName("device_type")
     @Expose
     private String deviceType;
@@ -32,7 +32,7 @@ public class AddDynamicSegmentRequest {
      * @param deviceToken
      * @param segments
      */
-    public AddDynamicSegmentRequest(String deviceToken, long siteId, String deviceType, List<Segment> segments) {
+    public AddDynamicSegmentRequest(String deviceToken, String siteId, String deviceType, List<Segment> segments) {
         super();
         this.deviceToken = deviceToken;
         this.siteId = siteId;
@@ -48,11 +48,11 @@ public class AddDynamicSegmentRequest {
         this.deviceToken = deviceToken;
     }
 
-    public long getSiteId() {
+    public String getSiteId() {
         return siteId;
     }
 
-    public void setSiteId(long siteId) {
+    public void setSiteId(String siteId) {
         this.siteId = siteId;
     }
 

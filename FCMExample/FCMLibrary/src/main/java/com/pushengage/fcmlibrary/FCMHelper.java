@@ -30,6 +30,7 @@ import com.pushengage.fcmlibrary.model.request.AddProfileIdRequest;
 import com.pushengage.fcmlibrary.model.request.AddSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.AddSubscriberRequest;
 import com.pushengage.fcmlibrary.model.request.RemoveDynamicSegmentRequest;
+import com.pushengage.fcmlibrary.model.request.RemoveSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.SegmentHashArrayRequest;
 import com.pushengage.fcmlibrary.model.request.UpdateSubscriberStatusRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
@@ -367,6 +368,7 @@ public class FCMHelper {
     }
 
     public static void addSegment(AddSegmentRequest addSegmentRequest) {
+        addSegmentRequest.setDeviceTokenHash(prefs.getHash());
         Call<GenricResponse> addSegmentResponseCall = RestClient.getUnAuthorisedClient(context).addSegments(addSegmentRequest);
         addSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
@@ -385,8 +387,9 @@ public class FCMHelper {
         });
     }
 
-    public static void removeSegment(AddSegmentRequest addSegmentRequest) {
-        Call<GenricResponse> removeSegmentResponseCall = RestClient.getUnAuthorisedClient(context).removeSegments(addSegmentRequest);
+    public static void removeSegment(RemoveSegmentRequest removeSegmentRequest) {
+        removeSegmentRequest.setDeviceToken(prefs.getDeviceToken());
+        Call<GenricResponse> removeSegmentResponseCall = RestClient.getUnAuthorisedClient(context).removeSegments(removeSegmentRequest);
         removeSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
@@ -405,6 +408,7 @@ public class FCMHelper {
     }
 
     public static void addDynamicSegment(AddDynamicSegmentRequest addDynamicSegmentRequest) {
+        addDynamicSegmentRequest.setDeviceToken(prefs.getDeviceToken());
         Call<GenricResponse> addDynamicSegmentResponseCall = RestClient.getUnAuthorisedClient(context).addDynamicSegments(addDynamicSegmentRequest);
         addDynamicSegmentResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override

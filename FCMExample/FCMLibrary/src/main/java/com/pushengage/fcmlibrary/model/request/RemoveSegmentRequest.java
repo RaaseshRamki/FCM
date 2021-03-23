@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class AddSegmentRequest {
-    @SerializedName("device_token_hash")
+public class RemoveSegmentRequest {
+    @SerializedName("device_token")
     @Expose
-    private String deviceTokenHash;
+    private String deviceToken;
     @SerializedName("segment")
     @Expose
     private List<String> segment = null;
@@ -23,7 +23,7 @@ public class AddSegmentRequest {
      * No args constructor for use in serialization
      *
      */
-    public AddSegmentRequest() {
+    public RemoveSegmentRequest() {
     }
 
     /**
@@ -31,22 +31,22 @@ public class AddSegmentRequest {
      * @param deviceType
      * @param segment
      * @param siteId
-     * @param deviceTokenHash
+     * @param deviceToken
      */
-    public AddSegmentRequest(String deviceTokenHash, List<String> segment, String siteId, String deviceType) {
+    public RemoveSegmentRequest(String deviceToken, List<String> segment, String siteId, String deviceType) {
         super();
-        this.deviceTokenHash = deviceTokenHash;
+        this.deviceToken = deviceToken;
         this.segment = segment;
         this.siteId = siteId;
         this.deviceType = deviceType;
     }
 
-    public String getDeviceTokenHash() {
-        return deviceTokenHash;
+    public String getDeviceToken() {
+        return deviceToken;
     }
 
-    public void setDeviceTokenHash(String deviceTokenHash) {
-        this.deviceTokenHash = deviceTokenHash;
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     public List<String> getSegment() {
