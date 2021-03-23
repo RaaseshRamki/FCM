@@ -1,6 +1,9 @@
 package com.pushengage.fcmlibrary;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +16,7 @@ import com.pushengage.fcmlibrary.model.request.RemoveDynamicSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.RemoveSegmentRequest;
 import com.pushengage.fcmlibrary.model.request.SegmentHashArrayRequest;
 import com.pushengage.fcmlibrary.model.request.UpdateSubscriberStatusRequest;
+import com.pushengage.fcmlibrary.model.request.UpdateTriggerStatusRequest;
 import com.pushengage.fcmlibrary.model.response.AddSubscriberResponse;
 import com.pushengage.fcmlibrary.model.response.GenricResponse;
 
@@ -93,8 +97,18 @@ public class RestClient {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request.Builder request = chain.request().newBuilder();
+                String versionRelease = Build.VERSION.RELEASE;
+                PackageInfo pInfo = null;
+                String sdkVersion = "";
+                try {
+                    pInfo = globalContext.getPackageManager().getPackageInfo(globalContext.getPackageName(), 0);
+                    sdkVersion = pInfo.versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
                 request.addHeader("content-type", "application/json");
-
+                request.addHeader("swv", sdkVersion);
+                request.addHeader("bv", versionRelease);
                 return chain.proceed(request.build());
             }
         });
@@ -158,10 +172,10 @@ public class RestClient {
         Call<GenricResponse> checkSubscriberHash(@Path("id") String id);
 
         @POST("subscriber/updatetriggerstatus")
-        Call<GenricResponse> updateTriggerStatus(@Query("swv") String  swv, @Query("bv") String  bv);
+        Call<GenricResponse> updateTriggerStatus(UpdateTriggerStatusRequest updateTriggerStatusRequest);
 
         @POST("subscriber/updatesubscriberstatus")
-        Call<GenricResponse> updateSubscriberStatus(@Query("swv") String  swv, @Query("bv") String  bv, @Body UpdateSubscriberStatusRequest updateSubscriberStatusRequest);
+        Call<GenricResponse> updateSubscriberStatus(@Body UpdateSubscriberStatusRequest updateSubscriberStatusRequest);
 
     }
 }
