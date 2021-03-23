@@ -257,7 +257,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -277,7 +276,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -297,7 +295,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -317,7 +314,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -339,7 +335,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -359,7 +354,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -379,7 +373,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -399,7 +392,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -419,7 +411,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -439,7 +430,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -459,7 +449,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -479,7 +468,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -499,7 +487,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
@@ -519,7 +506,6 @@ public class FCMHelper {
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     GenricResponse genricResponse = response.body();
-                    Log.d(TAG, genricResponse.getData().toString());
                 } else {
                     Log.e(TAG, "API Failure");
                 }
