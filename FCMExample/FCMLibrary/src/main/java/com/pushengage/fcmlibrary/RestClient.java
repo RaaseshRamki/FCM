@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -62,31 +63,20 @@ public class RestClient {
     public RestClient() {
     }
 
-    public static RTApiInterface getAuthorisedClient(Context context) {
-        globalContext = context;
-        authorisedRetrofitClient = getRetrofitClient(true, false, false);
-        return authorisedRetrofitClient.create(RTApiInterface.class);
-    }
-
     public static RTApiInterface getUnAuthorisedClient(Context context) {
         globalContext = context;
-        unAuthorisedRetrofitClient = getRetrofitClient(false, false, false);
+        unAuthorisedRetrofitClient = getRetrofitClient(null);
         return unAuthorisedRetrofitClient.create(RTApiInterface.class);
     }
 
-    public static RTApiInterface getUnAuthorisedClient(Context context, boolean isBaseUrlChange) {
+    public static RTApiInterface getUnAuthorisedClient(Context context, Map<String, String> headers) {
         globalContext = context;
-        unAuthorisedRetrofitClient = getRetrofitClient(false, false, isBaseUrlChange);
+        unAuthorisedRetrofitClient = getRetrofitClient(headers);
         return unAuthorisedRetrofitClient.create(RTApiInterface.class);
     }
 
-    public static RTApiInterface getRefreshToken(Context context) {
-        globalContext = context;
-        unAuthorisedRetrofitClient = getRetrofitClient(true, true, true);
-        return unAuthorisedRetrofitClient.create(RTApiInterface.class);
-    }
 
-    public static Retrofit getRetrofitClient(final boolean isAuthenticateAdded, final boolean refreshToken, boolean isBaseUrlChange) {
+    public static Retrofit getRetrofitClient(Map<String, String> headers) {
         String baseUrl = "https://staging-dexter.pushengage.com/p/v1/";
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -109,6 +99,12 @@ public class RestClient {
                 request.addHeader("content-type", "application/json");
                 request.addHeader("swv", sdkVersion);
                 request.addHeader("bv", versionRelease);
+
+                if (headers != null) {
+                    for (Map.Entry<String, String> entry : headers.entrySet()) {
+                        request.addHeader(entry.getKey(), entry.getValue());
+                    }
+                }
                 return chain.proceed(request.build());
             }
         });
@@ -174,8 +170,14 @@ public class RestClient {
         @POST("subscriber/updatetriggerstatus")
         Call<GenricResponse> updateTriggerStatus(@Body UpdateTriggerStatusRequest updateTriggerStatusRequest);
 
-        @POST("subscriber/updatesubscriberstatus")
+        @GET("subscriber/updatesubscriberstatus")
         Call<GenricResponse> updateSubscriberStatus(@Body UpdateSubscriberStatusRequest updateSubscriberStatusRequest);
+
+        @POST("notification/click")
+        Call<GenricResponse> notificationClick(@Query("device_hash") String device_hash, @Query("tag") String tag);
+
+        @GET("notification/view")
+        Call<GenricResponse> notificationView(@Query("device_token_hash") String device_token_hash, @Query("tag") String tag);
 
     }
 }

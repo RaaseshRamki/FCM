@@ -44,8 +44,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import retrofit2.Call;
@@ -510,6 +512,48 @@ public class FCMHelper {
         updateSubscriberStatusRequest.setDeviceTokenHash(prefs.getHash());
         Call<GenricResponse> updateSubscriberStatusResponseCall = RestClient.getUnAuthorisedClient(context).updateSubscriberStatus(updateSubscriberStatusRequest);
         updateSubscriberStatusResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void notificationCLick() {
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("referer","https://pushengage.com/service-worker.js");
+        Call<GenricResponse> notificationClickResponseCall = RestClient.getUnAuthorisedClient(context, headerMap).notificationClick(prefs.getHash(), "N-49438-37382-df4bfe55fc37266b552c991f83923fbcfb0fbbe4930cf355ed3e849daacc4ffb");
+        notificationClickResponseCall.enqueue(new Callback<GenricResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
+                if (response.code() == HttpURLConnection.HTTP_OK) {
+                    GenricResponse genricResponse = response.body();
+                } else {
+                    Log.e(TAG, "API Failure");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GenricResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "API Failure");
+            }
+        });
+    }
+
+    public static void notificationView() {
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("referer","https://pushengage.com/service-worker.js");
+        Call<GenricResponse> notificationViewResponseCall = RestClient.getUnAuthorisedClient(context, headerMap).notificationView(prefs.getHash(),"N-49438-37382-df4bfe55fc37266b552c991f83923fbcfb0fbbe4930cf355ed3e849daacc4ffb");
+        notificationViewResponseCall.enqueue(new Callback<GenricResponse>() {
             @Override
             public void onResponse(@NonNull Call<GenricResponse> call, @NonNull Response<GenricResponse> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
